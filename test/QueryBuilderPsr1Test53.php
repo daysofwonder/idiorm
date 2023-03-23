@@ -1,8 +1,8 @@
 <?php
 
-class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
+class QueryBuilderPsr1Test53 extends \PHPUnit\Framework\TestCase {
 
-    public function setUp() {
+    protected function setUp() : void {
         // Enable logging
         ORM::configure('logging', true);
 
@@ -11,7 +11,7 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
         ORM::setDb($db);
     }
 
-    public function tearDown() {
+    protected function tearDown() : void {
         ORM::configure('logging', false);
         ORM::setDb(null);
     }
@@ -511,7 +511,7 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
         $expected = "SELECT COUNT(*) AS `count` FROM `widget` LIMIT 1";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
-    
+
     public function testIgnoreSelectAndCount() {
     	ORM::forTable('widget')->select('test')->count();
     	$expected = "SELECT COUNT(*) AS `count` FROM `widget` LIMIT 1";
@@ -579,4 +579,3 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 }
-

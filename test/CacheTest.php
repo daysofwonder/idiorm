@@ -1,10 +1,10 @@
 <?php
 
-class CacheTest extends PHPUnit_Framework_TestCase {
+class CacheTest extends \PHPUnit\Framework\TestCase {
 
     const ALTERNATE = 'alternate'; // Used as name of alternate connection
 
-    public function setUp() {
+    protected function setUp() :void {
         // Set up the dummy database connections
         ORM::set_db(new MockPDO('sqlite::memory:'));
         ORM::set_db(new MockDifferentPDO('sqlite::memory:'), self::ALTERNATE);
@@ -16,7 +16,7 @@ class CacheTest extends PHPUnit_Framework_TestCase {
         ORM::configure('caching', true, self::ALTERNATE);
     }
 
-    public function tearDown() {
+    protected function tearDown() : void {
         ORM::reset_config();
         ORM::reset_db();
     }
@@ -38,5 +38,5 @@ class CacheTest extends PHPUnit_Framework_TestCase {
         ORM::for_table('widget', self::ALTERNATE)->where('name', 'Steve')->where('age', 80)->find_one(); // this shouldn't run a query!
         $this->assertEquals($expected, ORM::get_last_query(self::ALTERNATE));
     }
-    
+
 }

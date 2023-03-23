@@ -1,8 +1,8 @@
 <?php
 
-class CacheIntegrationTest extends PHPUnit_Framework_TestCase {
+class CacheIntegrationTest extends \PHPUnit\Framework\TestCase {
 
-    public function setUp() {
+    protected function setUp() : void {
         ORM::configure('sqlite::memory:');
         ORM::configure('logging', true);
         ORM::configure('caching', true);
@@ -18,7 +18,7 @@ class CacheIntegrationTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(3, $x);
     }
 
-    public function tearDown() {
+    protected function tearDown() : void {
         ORM::raw_execute('DROP TABLE `league`');
     }
 
