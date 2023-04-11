@@ -1,8 +1,8 @@
 <?php
 
-class QueryBuilderTest extends PHPUnit_Framework_TestCase {
+class QueryBuilderTest extends \PHPUnit\Framework\TestCase {
 
-    public function setUp() {
+    protected function setUp() : void {
         // Enable logging
         ORM::configure('logging', true);
 
@@ -11,7 +11,7 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase {
         ORM::set_db($db);
     }
 
-    public function tearDown() {
+    protected function tearDown() : void {
         ORM::reset_config();
         ORM::reset_db();
     }
@@ -547,7 +547,7 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase {
         $expected = "SELECT COUNT(*) AS `count` FROM `widget` LIMIT 1";
         $this->assertEquals($expected, ORM::get_last_query());
     }
-    
+
     public function testIgnoreSelectAndCount() {
     	ORM::for_table('widget')->select('test')->count();
     	$expected = "SELECT COUNT(*) AS `count` FROM `widget` LIMIT 1";
@@ -585,13 +585,13 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase {
         $expected = "UPDATE `widget` SET `added` = '2013-01-04' WHERE `id` = '1'";
         $this->assertEquals($expected, ORM::get_last_query());
     }
-    
+
     public function test_quote_multiple_identifiers_part() {
         $record = ORM::for_table('widget')->use_id_column(array('id1', 'id2'))->create();
         $expected = "`id1`, `id2`";
         $this->assertEquals($expected, $record->_quote_identifier($record->_get_id_column_name()));
     }
-    
+
     /**
      * Compound primary key tests
      */
@@ -693,4 +693,3 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($expected, ORM::get_last_query());
     }
 }
-

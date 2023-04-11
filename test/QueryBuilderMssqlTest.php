@@ -1,8 +1,8 @@
 <?php
 
-class QueryBuilderMssqlTest extends PHPUnit_Framework_TestCase {
+class QueryBuilderMssqlTest extends \PHPUnit\Framework\TestCase {
 
-    public function setUp() {
+    protected function setUp() : void {
         // Enable logging
         ORM::configure('logging', true);
 
@@ -11,7 +11,7 @@ class QueryBuilderMssqlTest extends PHPUnit_Framework_TestCase {
         ORM::set_db($db);
     }
 
-    public function tearDown() {
+    protected function tearDown() : void {
         ORM::reset_config();
         ORM::reset_db();
     }
@@ -27,6 +27,5 @@ class QueryBuilderMssqlTest extends PHPUnit_Framework_TestCase {
         $expected = 'SELECT TOP 5 * FROM "widget"';
         $this->assertEquals($expected, ORM::get_last_query());
     }
-    
-}
 
+}

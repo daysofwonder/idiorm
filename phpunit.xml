@@ -1,12 +1,10 @@
-<phpunit backupGlobals="true"
-         backupStaticAttributes="false"
-         bootstrap="test/bootstrap.php"
-         cacheTokens="false"
-         colors="true">
-    <testsuites>
-        <testsuite name="Idiorm Test Suite">
-            <directory suffix="Test.php">test</directory>
-            <directory suffix="Test53.php" phpVersion="5.3.0" phpVersionOperator=">=">test</directory>
-        </testsuite>
-    </testsuites>
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="true" backupStaticAttributes="false" bootstrap="test/bootstrap.php" colors="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage/>
+  <testsuites>
+    <testsuite name="Idiorm Test Suite">
+      <directory suffix="Test.php">test</directory>
+      <directory suffix="Test53.php" phpVersion="5.3.0" phpVersionOperator="&gt;=">test</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>

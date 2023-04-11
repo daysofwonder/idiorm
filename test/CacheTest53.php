@@ -1,10 +1,10 @@
 <?php
 
-class CacheTest53 extends PHPUnit_Framework_TestCase {
+class CacheTest53 extends \PHPUnit\Framework\TestCase {
 
     const ALTERNATE = 'alternate'; // Used as name of alternate connection
 
-    public function setUp() {
+    protected function setUp() : void {
         // Set up the dummy database connections
         ORM::set_db(new MockPDO('sqlite::memory:'));
         ORM::set_db(new MockDifferentPDO('sqlite::memory:'), self::ALTERNATE);
@@ -16,17 +16,17 @@ class CacheTest53 extends PHPUnit_Framework_TestCase {
         ORM::configure('caching', true, self::ALTERNATE);
     }
 
-    public function tearDown() {
+    protected function tearDown() : void {
         ORM::reset_config();
         ORM::reset_db();
     }
 
-     
+
     public function testCustomCacheCallback() {
         $phpunit = $this;
         $my_cache = array();
         ORM::configure('caching_auto_clear', true);
- 
+
         ORM::configure('create_cache_key', function ($query, $parameters, $table_name, $connection) use ($phpunit, &$my_cache) {
             $phpunit->assertEquals(true, is_string($query));
             $phpunit->assertEquals(true, is_array($parameters));
@@ -55,28 +55,28 @@ class CacheTest53 extends PHPUnit_Framework_TestCase {
             }
         });
         ORM::configure('clear_cache', function ($table_name, $connection_name) use ($phpunit, &$my_cache) {
-             $phpunit->assertEquals(true, is_string($table_name)); 
+             $phpunit->assertEquals(true, is_string($table_name));
              $phpunit->assertEquals(true, is_string($connection_name));
              $my_cache = array();
         });
         ORM::for_table('widget')->where('name', 'Fred')->where('age', 21)->find_one();
         ORM::for_table('widget')->where('name', 'Fred')->where('age', 21)->find_one();
         ORM::for_table('widget')->where('name', 'Bob')->where('age', 42)->find_one();
- 
-        //our custom cache should be full now 
+
+        //our custom cache should be full now
         $this->assertEquals(true, !empty($my_cache));
- 
-        //checking custom cache key 
+
+        //checking custom cache key
         foreach($my_cache as $k=>$v){
         $this->assertEquals('some-prefix', substr($k,0,11));
         }
-        
+
         $new = ORM::for_table('widget')->create();
         $new->name = "Joe";
         $new->age = 25;
         $saved = $new->save();
-        
-        //our custom cache should be empty now 
+
+        //our custom cache should be empty now
         $this->assertEquals(true, empty($my_cache));
     }
 }
